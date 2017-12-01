@@ -3,9 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-scripts-ts": "2.8.0",
+    "@types/react-router-dom": "^4.2.3",
     "apollo-client": "^2.0.3",
     "apollo-link-http": "^1.2.0",
     "graphql": "^0.11.7",
@@ -15,6 +13,10 @@
     "mobx-react-devtools": "^4.2.15",
     "mobx-state-tree": "^1.1.0",
     "moment": "^2.19.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts-ts": "2.8.0",
     "recompose": "^0.26.0",
     "semantic-ui": "^2.2.13",
     "semantic-ui-react": "^0.77.0"
@@ -26,11 +28,11 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
+    "@types/graphql": "^0.11.6",
     "@types/jest": "^21.1.8",
     "@types/node": "^8.0.53",
     "@types/react": "^16.0.25",
     "@types/react-dom": "^16.0.3",
-    "@types/graphql": "^0.11.6",
     "@types/react-router": "^4.0.18",
     "@types/recompose": "^0.23.3",
     "@types/semantic-ui": "^2.2.6"

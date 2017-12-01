@@ -1,11 +1,26 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
-import './index.css';
+import {Provider} from 'mobx-react';
+import {App} from 'App';
+import {Route, BrowserRouter} from 'react-router-dom';
+
+import 'semantic.css';
+
+
+const store = {
+    descriptor: {}, // TODO add store
+};
+
+
+const Router = () => (
+    <BrowserRouter>
+        <Route path="/" render={App}/>
+    </BrowserRouter>
+);
 
 ReactDOM.render(
-  <App />,
-  document.getElementById('root') as HTMLElement
+    <Provider {...store}>
+        <Router/>
+         </Provider>,
+    document.getElementById('root') as HTMLElement
 );
-registerServiceWorker();

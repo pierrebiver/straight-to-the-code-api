@@ -2,25 +2,31 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {Provider} from 'mobx-react';
 import {App} from 'App';
-import {Route, BrowserRouter} from 'react-router-dom';
+import {Route, BrowserRouter, Switch} from 'react-router-dom';
+import {DescriptorStore} from "stores/Descriptor";
+import {Add} from "components/Add";
 
-import 'semantic.css';
+
+import 'semantic/dist/semantic.css';
 
 
 const store = {
-    descriptor: {}, // TODO add store
+    descriptor: DescriptorStore.create(),
 };
 
 
 const Router = () => (
     <BrowserRouter>
-        <Route path="/" render={App}/>
+        <Switch>
+            <Route exact path="/" component={App}/>
+            <Route path="/add" component={Add}/>
+        </Switch>
     </BrowserRouter>
 );
 
 ReactDOM.render(
     <Provider {...store}>
         <Router/>
-         </Provider>,
+    </Provider>,
     document.getElementById('root') as HTMLElement
 );

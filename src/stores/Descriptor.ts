@@ -12,4 +12,12 @@ const Descriptor = types.model("Descriptor", {
 export type IDescriptor = typeof Descriptor.Type;
 
 
-const DescriptorStore = types.model("DescriptorStore", {});
+export const DescriptorStore = types.model("DescriptorStore", {
+    descriptors: types.optional(types.array(Descriptor), []),
+    tags: types.optional(types.array(types.string), []),
+}).actions( self => {
+
+    return {}
+});
+
+export type IDescriptorStore = typeof DescriptorStore.Type;

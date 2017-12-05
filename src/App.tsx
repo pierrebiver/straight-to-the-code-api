@@ -5,6 +5,6 @@ import SearchDescriptor from "components/Search";
 export const App = () => (
     <div>
         <HeaderGo/>
-        <SearchDescriptor />
+        <SearchDescriptor/>
     </div>
 );

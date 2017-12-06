@@ -4,14 +4,14 @@ import {Provider} from 'mobx-react';
 import {App} from 'App';
 import {Route, BrowserRouter, Switch} from 'react-router-dom';
 import {DescriptorStore} from "stores/Descriptor";
-import {Add} from "components/Add";
+import Add from "components/Add";
 
 
 import 'semantic/dist/semantic.css';
 
 
 const store = {
-    descriptor: DescriptorStore.create(),
+    descriptorStore: DescriptorStore.create(),
 };
 
 

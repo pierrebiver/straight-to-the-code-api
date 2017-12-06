@@ -5,6 +5,7 @@
   "dependencies": {
     "@types/react-router-dom": "^4.2.3",
     "@types/showdown": "^1.7.2",
+    "apollo-cache-inmemory": "^1.1.2",
     "apollo-client": "^2.0.3",
     "apollo-link-http": "^1.2.0",
     "font-awesome": "^4.7.0",

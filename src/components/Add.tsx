@@ -6,25 +6,20 @@ import ReactMde, {ReactMdeCommands, ReactMdeTypes} from "react-mde";
 
 import 'react-mde/lib/styles/css/react-mde-all.css';
 import 'font-awesome/css/font-awesome.css';
+import {IDescriptorStore} from "../stores/Descriptor";
+import {inject, observer} from "mobx-react";
 
 
 type ReactMardownProps = {
-    text: {
-        reactMdeValue: ReactMdeTypes.Value
-    };
-    setText: (text: { reactMdeValue: ReactMdeTypes.Value }) => void
+    description: string,
+    setDescription: (fieldName: string, value: string) => void
 }
 
-const ReactMarkdownComponent = ({text, setText}: ReactMardownProps) => (
-    <ReactMde commands={ReactMdeCommands.getDefaultCommands()} value={text.reactMdeValue}
-              onChange={(value: ReactMdeTypes.Value) => setText({reactMdeValue: value})}/>
+const ReactMarkdown = ({description, setDescription}: ReactMardownProps) => (
+    <ReactMde commands={ReactMdeCommands.getDefaultCommands()} value={{text: description}}
+              onChange={(value: ReactMdeTypes.Value) => setDescription("description", value.text)}/>
 );
 
-const withValue = withState("text", "setText", {reactMdeValue: ""});
-
-const ReactMarkdown = compose<ReactMardownProps, {}>(
-    withValue
-)(ReactMarkdownComponent);
 
 const tagsOptions = [
     {text: "test", value: "value"}
@@ -35,17 +30,25 @@ const handleAddOptions = (e: any, data: DropdownProps) => tagsOptions.push({
     value: data.value as string
 });
 
-export const Add = () => (
+
+const AddComponent = ({descriptorStore}: { descriptorStore: IDescriptorStore }) => (
     <Container>
         <Header>Add new Descriptor</Header>
         <Form>
-            <Form.Input label="Name"/>
+            <Form.Input label="Name" onChange={(e, data) => descriptorStore.updateNewDescriptor("name", data.value)}/>
             <label> Description </label>
-            <ReactMarkdown/>
+            <ReactMarkdown description={descriptorStore.descriptorInput.description}
+                           setDescription={descriptorStore.updateNewDescriptor}/>
 
             <Form.Dropdown label="#Tags" selection onAddItem={handleAddOptions} allowAdditions={true} search
-                           options={tagsOptions} multiple/>
-            <Button primary> Save </Button>
+                           options={tagsOptions} multiple
+                           onChange={(e, data) => descriptorStore.updateNewDescriptor("tags", data.value)}/>
+            <Button primary onClick={() => descriptorStore.add()}> Save </Button>
         </Form>
     </Container>
 );
+
+export default compose<{ descriptorStore: IDescriptorStore }, {}>(
+    inject("descriptorStore"),
+    observer
+)(AddComponent)

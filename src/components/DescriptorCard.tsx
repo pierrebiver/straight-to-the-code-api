@@ -8,10 +8,10 @@ export default ({descriptor}: { descriptor: IDescriptor }) => (
         <Card.Content>
             <Card.Header>{descriptor.name}</Card.Header>
             <Card.Description>
-                <ReactMdePreview  markdown={descriptor.description}/>
+                <ReactMdePreview markdown={descriptor.description}/>
             </Card.Description>
         </Card.Content>
-        <Card.Content>
+        <Card.Content extra>
             <List horizontal>
                 {descriptor.tags.map(t => <List.Item key={t}>{`#${t}`}</List.Item>)}
             </List>

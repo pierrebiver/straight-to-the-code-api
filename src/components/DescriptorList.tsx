@@ -12,7 +12,7 @@ type DescriptorListProps = {
 
 const DescriptorListComponent = ({descriptorStore}: DescriptorListProps) => (
     <Card.Group itemsPerRow="1">
-        {descriptorStore.descriptors.map((d: IDescriptor) => <DescriptorCard key={d.id as string} descriptor={d}/>)}
+        {descriptorStore.filteredDescriptors.map((d: IDescriptor) => <DescriptorCard key={d.id as string} descriptor={d}/>)}
     </Card.Group>
 );
 

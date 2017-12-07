@@ -1,8 +1,20 @@
 import * as React from 'react'
-import {Header, Image} from "semantic-ui-react";
+import {Header, Segment, Image} from "semantic-ui-react";
+import Search from 'components/Search';
 
-const banner = require('images/twitter-gopher-banner-small.jpg');
+const goIcon = require('images/Go-brown.png');
 
 export const HeaderGo = () => (
-    <Image height="300px" width="100%" src={banner}/>
+    <Segment inverted
+             textAlign='center'
+             style={{minHeight: 400, padding: '1em 0em', "marginBottom": '2em'}}
+             vertical color="blue">
+
+        <Header as="h1"
+                style={{fontSize: '4em', fontWeight: 'normal', marginBottom: 0, marginTop: '3em'}}>
+            <Image src={goIcon} inline/>
+            The Wiki Go
+        </Header>
+        <Search/>
+    </Segment>
 );

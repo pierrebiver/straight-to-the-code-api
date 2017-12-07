@@ -8,6 +8,7 @@ import 'react-mde/lib/styles/css/react-mde-all.css';
 import 'font-awesome/css/font-awesome.css';
 import {IDescriptorStore} from "../stores/Descriptor";
 import {inject, observer} from "mobx-react";
+import {Link} from "react-router-dom";
 
 
 type ReactMardownProps = {
@@ -43,7 +44,8 @@ const AddComponent = ({descriptorStore}: { descriptorStore: IDescriptorStore }) 
             <Form.Dropdown label="#Tags" selection onAddItem={handleAddOptions} allowAdditions={true} search
                            options={tagsOptions} multiple
                            onChange={(e, data) => descriptorStore.updateNewDescriptor("tags", data.value)}/>
-            <Button primary onClick={() => descriptorStore.add()}> Save </Button>
+            <Button primary onClick={() => descriptorStore.add()} loading={descriptorStore.saving}> Save </Button>
+            <Button><Link to="/">Back</Link></Button>
         </Form>
     </Container>
 );

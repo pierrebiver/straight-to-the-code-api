@@ -3,7 +3,7 @@ import {Search} from 'semantic-ui-react';
 
 
 const SearchDescriptor = () => (
-    <Search fluid/>
+    <Search fluid />
 );
 
 export default SearchDescriptor;

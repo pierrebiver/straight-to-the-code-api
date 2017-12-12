@@ -1,7 +1,7 @@
-import {types, flow} from "mobx-state-tree";
+import {types, flow, getSnapshot, applySnapshot} from "mobx-state-tree";
 import client from "graphql/config";
 import {ApolloQueryResult} from "apollo-client";
-import {ADD} from "graphql/Mutation";
+import {ADD, EDIT, DELETE} from "graphql/Mutation";
 import {DESCRIPTORS} from "graphql/Query";
 
 
@@ -15,6 +15,7 @@ const Descriptor = types.model("Descriptor", {
 export type IDescriptor = typeof Descriptor.Type;
 
 const DescriptorInput = types.model("DescriptorInput", {
+    id: types.maybe(types.identifier()),
     name: types.maybe(types.string),
     tags: types.optional(types.array(types.string), []),
     description: types.maybe(types.string),
@@ -41,11 +42,11 @@ export const DescriptorStore = types.model("DescriptorStore", {
         }
     })
     .actions(self => {
-        function sendAdd(descriptor: IDescriptorInput) {
+        function sendSave(descriptor: IDescriptorInput, query: any) {
             return client.mutate({
-                mutation: ADD,
+                mutation: query,
                 variables: {descriptor}
-            }).then((result: ApolloQueryResult<{ add: IDescriptor }>) => result.data.add)
+            }).then((result: ApolloQueryResult<{ add?: IDescriptor, edit: IDescriptor }>) => result.data.add || result.data.edit)
                 .catch(e => console.log("Failed to add new descriptor", e))
         }
 
@@ -56,17 +57,41 @@ export const DescriptorStore = types.model("DescriptorStore", {
                 .catch(e => console.log("Failed to fetch descriptor list", e))
         }
 
+        function sendRemove(descriptorId: String) {
+            return client.mutate({
+                mutation: DELETE,
+                variables: {descriptorId}
+            }).then((result: ApolloQueryResult<{}>) => "ok")
+                .catch(e => console.log("Failed to remove descriptor", e))
+
+        }
+
         function resetNewDescriptor() {
             self.descriptorInput = DescriptorInput.create({})
         }
 
         return {
-            add: flow(function* add() {
+            save: flow(function* add() {
                 self.saving = true;
-                const newDescriptor = yield sendAdd(self.descriptorInput);
+                let query = ADD;
+
+                if (self.descriptorInput.id) {
+                    query = EDIT;
+                }
+                const newDescriptor = yield sendSave(self.descriptorInput, query);
                 self.saving = false;
-                self.descriptors.push(newDescriptor);
+
+                let existingDescriptor: IDescriptor = self.descriptors.find((d: IDescriptor) => d.id.toString() === newDescriptor.id.toString());
+                if (existingDescriptor) {
+                    applySnapshot(existingDescriptor, newDescriptor)
+                } else {
+                    self.descriptors.push(newDescriptor);
+                }
                 resetNewDescriptor();
+            }),
+            remove: flow(function* remove(descriptorId: string) {
+                const msg = yield sendRemove(descriptorId);
+                self.descriptors.remove(self.descriptors.find(d => d.id.toString() === descriptorId));
             }),
             updateNewDescriptor(fieldName: string, value: any) {
                 self.descriptorInput[fieldName] = value;
@@ -78,7 +103,10 @@ export const DescriptorStore = types.model("DescriptorStore", {
                 self.loading = true;
                 self.descriptors = yield sendFetch();
                 self.loading = false;
-            })
+            }),
+            setDescriptorInput(d: IDescriptor) {
+                self.descriptorInput = DescriptorInput.create(getSnapshot(d));
+            }
         }
     });
 

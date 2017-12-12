@@ -13,7 +13,7 @@ export const HeaderGo = () => (
         <Header as="h1"
                 style={{fontSize: '4em', fontWeight: 'normal', marginBottom: 0, marginTop: '3em'}}>
             <Image src={goIcon} inline/>
-            The Wiki Go
+            The Go's Wiki
         </Header>
         <Search/>
     </Segment>

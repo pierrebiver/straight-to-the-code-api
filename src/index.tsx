@@ -19,7 +19,7 @@ const Router = () => (
     <BrowserRouter>
         <Switch>
             <Route exact path="/" component={App}/>
-            <Route path="/add" component={Add}/>
+            <Route path="/add-edit" component={Add}/>
         </Switch>
     </BrowserRouter>
 );

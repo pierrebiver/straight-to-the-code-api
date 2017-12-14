@@ -11,17 +11,8 @@ type DescriptorCardProps = {
     descriptorStore: IDescriptorStore
 }
 
-const DescriptorCardComponent = ({descriptor, descriptorStore}: DescriptorCardProps) => (
-    <Card centered style={{margin: "10px 3em 10px 3em"}}>
-        <Card.Content>
-            <Card.Header>{descriptor.name}</Card.Header>
-            <Card.Description>
-                <ReactMdePreview markdown={descriptor.description}/>
-            </Card.Description>
-        </Card.Content>
-        <Card.Content>
-                {descriptor.tags.map(t => <span style={{ color: "dodgerblue" }} key={t} >{`#${t}`}</span>)}
-        </Card.Content>
+const Extra = ({descriptor, descriptorStore}: DescriptorCardProps) => (
+    process.env.NODE_ENV === "development" ?
         <Card.Content extra>
             <Modal trigger={<Button>Edit</Button>}>
                 <Modal.Content>
@@ -31,6 +22,21 @@ const DescriptorCardComponent = ({descriptor, descriptorStore}: DescriptorCardPr
             <Button negative
                     onClick={() => descriptorStore.remove(descriptor.id.toString())}>Delete</Button>
         </Card.Content>
+        : null
+);
+
+const DescriptorCardComponent = ({descriptor, descriptorStore}: DescriptorCardProps) => (
+    <Card centered style={{margin: "10px 3em 10px 3em"}}>
+        <Card.Content>
+            <Card.Header>{descriptor.name}</Card.Header>
+            <Card.Description>
+                <ReactMdePreview markdown={descriptor.description}/>
+            </Card.Description>
+        </Card.Content>
+        <Card.Content>
+            {descriptor.tags.map(t => <span style={{color: "dodgerblue"}} key={t}>{`#${t}`}</span>)}
+        </Card.Content>
+        <Extra descriptorStore={descriptorStore} descriptor={descriptor}/>
     </Card>
 );
 

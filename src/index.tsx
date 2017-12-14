@@ -19,7 +19,7 @@ const Router = () => (
     <BrowserRouter>
         <Switch>
             <Route exact path="/" component={App}/>
-            <Route path="/add-edit" component={Add}/>
+            {process.env.NODE_ENV === "development" ? <Route path="/add-edit" component={Add}/> : null}
         </Switch>
     </BrowserRouter>
 );

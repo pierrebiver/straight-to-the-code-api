@@ -7,7 +7,7 @@ import {SyntheticEvent} from "react";
 
 
 const SearchDescriptor = ({descriptorStore, onSearchChange}: DescriptorProps) => (
-    <Search fluid placeholder="Search for Go's feature" onSearchChange={onSearchChange}
+    <Search placeholder="Search for Go's feature" onSearchChange={onSearchChange}
             open={false} value={descriptorStore.filter || undefined}
     />
 );

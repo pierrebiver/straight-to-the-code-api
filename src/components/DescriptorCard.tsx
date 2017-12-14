@@ -6,12 +6,12 @@ import Add from "components/Add";
 import {compose} from "recompose";
 import {inject, observer} from "mobx-react";
 
-type DescritorCardProps = {
+type DescriptorCardProps = {
     descriptor: IDescriptor,
     descriptorStore: IDescriptorStore
 }
 
-const DescriptorCardComponent = ({descriptor, descriptorStore}: DescritorCardProps) => (
+const DescriptorCardComponent = ({descriptor, descriptorStore}: DescriptorCardProps) => (
     <Card centered style={{margin: "10px 3em 10px 3em"}}>
         <Card.Content>
             <Card.Header>{descriptor.name}</Card.Header>
@@ -20,9 +20,7 @@ const DescriptorCardComponent = ({descriptor, descriptorStore}: DescritorCardPro
             </Card.Description>
         </Card.Content>
         <Card.Content>
-            <List horizontal>
-                {descriptor.tags.map(t => <List.Item key={t}>{`#${t}`}</List.Item>)}
-            </List>
+                {descriptor.tags.map(t => <span style={{ color: "dodgerblue" }} key={t} >{`#${t}`}</span>)}
         </Card.Content>
         <Card.Content extra>
             <Modal trigger={<Button>Edit</Button>}>
@@ -30,13 +28,13 @@ const DescriptorCardComponent = ({descriptor, descriptorStore}: DescritorCardPro
                     <Add descriptor={descriptor}/>
                 </Modal.Content>
             </Modal>
-            <Button icon="trash" negative
+            <Button negative
                     onClick={() => descriptorStore.remove(descriptor.id.toString())}>Delete</Button>
         </Card.Content>
     </Card>
 );
 
-export default compose<DescritorCardProps, { descriptor: IDescriptor }>(
+export default compose<DescriptorCardProps, { descriptor: IDescriptor }>(
     inject("descriptorStore"),
     observer
 )(DescriptorCardComponent)
